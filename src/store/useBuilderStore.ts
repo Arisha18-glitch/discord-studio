@@ -13,6 +13,7 @@ export type ActiveTab = 'message' | 'embeds' | 'buttons' | 'templates' | 'json';
 interface BuilderState {
   webhookUrl: string;
   threadId: string;
+  botClientId: string;
   activeTab: ActiveTab;
   activeEmbedIndex: number;
   payload: DiscordMessagePayload;
@@ -20,6 +21,7 @@ interface BuilderState {
   // Navigation & Config
   setWebhookUrl: (url: string) => void;
   setThreadId: (threadId: string) => void;
+  setBotClientId: (botClientId: string) => void;
   setActiveTab: (tab: ActiveTab) => void;
   setActiveEmbedIndex: (index: number) => void;
 
@@ -94,12 +96,14 @@ export const useBuilderStore = create<BuilderState>()(
     (set) => ({
       webhookUrl: '',
       threadId: '',
+      botClientId: (import.meta.env.VITE_DISCORD_BOT_CLIENT_ID as string) || '',
       activeTab: 'message',
       activeEmbedIndex: 0,
       payload: initialPayload,
 
       setWebhookUrl: (webhookUrl) => set({ webhookUrl }),
       setThreadId: (threadId) => set({ threadId }),
+      setBotClientId: (botClientId) => set({ botClientId }),
       setActiveTab: (activeTab) => set({ activeTab }),
       setActiveEmbedIndex: (activeEmbedIndex) => set({ activeEmbedIndex }),
 

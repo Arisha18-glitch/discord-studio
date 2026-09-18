@@ -12,8 +12,10 @@ import {
   Share2,
   RotateCcw,
   FileDown,
-  Loader2
+  Loader2,
+  Bot
 } from 'lucide-react';
+import { BotModal } from '../shared/BotModal';
 
 export const Header: React.FC = () => {
   const { webhookUrl, setWebhookUrl, payload, resetPayload, threadId } = useBuilderStore();
@@ -22,6 +24,7 @@ export const Header: React.FC = () => {
   const [showWebhook, setShowWebhook] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
+  const [isBotModalOpen, setIsBotModalOpen] = useState(false);
 
   // Test Webhook connectivity
   const handleTestWebhook = async () => {
@@ -118,6 +121,17 @@ export const Header: React.FC = () => {
           </div>
           <p className="text-[11px] text-discord-muted font-normal">Visual Webhook & Embed Designer</p>
         </div>
+
+        {/* Discord Bot Invite Action (Discohook style) */}
+        <button
+          type="button"
+          onClick={() => setIsBotModalOpen(true)}
+          className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-discord-muted hover:text-white hover:bg-white/5 border border-discord-border/50 hover:border-discord-blurple transition-colors ml-1"
+          title="Invite Companion Discord Bot"
+        >
+          <Bot className="w-3.5 h-3.5 text-discord-blurple" />
+          <span>Discord Bot</span>
+        </button>
       </div>
 
       {/* Webhook Input Bar */}
@@ -196,6 +210,12 @@ export const Header: React.FC = () => {
           <RotateCcw className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Companion Bot OAuth2 Authorization Modal */}
+      <BotModal
+        isOpen={isBotModalOpen}
+        onClose={() => setIsBotModalOpen(false)}
+      />
     </header>
   );
 };

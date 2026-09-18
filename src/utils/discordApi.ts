@@ -1,6 +1,25 @@
 import { DiscordMessagePayload, WebhookSendResult } from '../types/discord';
 
 /**
+ * Constructs an official Discord OAuth2 Bot Authorization URL.
+ * Scopes: bot, applications.commands
+ * Default Permissions: 534723950656 (Manage Webhooks, Send Messages, Embed Links, History, Slash Commands)
+ */
+export function getDiscordBotInviteUrl(
+  clientId: string,
+  permissions = '534723950656'
+): string | null {
+  if (!clientId || !clientId.trim()) return null;
+
+  const url = new URL('https://discord.com/oauth2/authorize');
+  url.searchParams.set('client_id', clientId.trim());
+  url.searchParams.set('permissions', permissions);
+  url.searchParams.set('scope', 'bot applications.commands');
+
+  return url.toString();
+}
+
+/**
  * Validates the syntax of a Discord Webhook URL.
  * Discord Webhook structure: https://discord.com/api/webhooks/{webhook.id}/{webhook.token}
  */
